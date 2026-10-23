@@ -191,11 +191,8 @@ R2_HEALTHCHECK_KEY = os.getenv("R2_HEALTHCHECK_KEY", "").strip()
 # Authentication cookies
 # ----------------------------------------------------------------------
 
-# AUTH_COOKIE_SECURE = os.getenv(
-#     "AUTH_COOKIE_SECURE",
-#     "True",
-# ).lower() == "true"
-AUTH_COOKIE_SECURE = False
+AUTH_COOKIE_SECURE = os.getenv("AUTH_COOKIE_SECURE","")
+# AUTH_COOKIE_SECURE = False
 
 ACCESS_TOKEN_COOKIE = "access_token"
 REFRESH_TOKEN_COOKIE = "refresh_token"
