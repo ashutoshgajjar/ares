@@ -134,7 +134,7 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [x.strip() for x in os.getenv("DJANGO_CORS_ALLOWED_ORIGINS", "").split(",") if x.strip()]
-CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_CREDENTIALS = os.getenv("ALLOW_CREDENTIALS", "True").lower() == "true"
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
