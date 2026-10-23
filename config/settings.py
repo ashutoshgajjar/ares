@@ -9,7 +9,7 @@ load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "insecure-development-key")
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
-ALLOWED_HOSTS = [h.strip() for h in os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("DJANGO_ALLOWED_HOSTS").split(",") if h.strip()]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -147,8 +147,8 @@ SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
 
-DJANGO_DEBUG=True
-DEBUG=True
+DJANGO_DEBUG=os.getenv("DJANGO_DEBUG")
+DEBUG=os.getenv("DJANGO_DEBUG")
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2_621_440
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2_621_440
