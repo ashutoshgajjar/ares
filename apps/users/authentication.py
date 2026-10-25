@@ -42,6 +42,7 @@
 
 #         return user, validated_token
 
+from datetime import timedelta
 from django.conf import settings
 from django.utils import timezone
 
@@ -131,10 +132,18 @@ class CookieJWTAuthentication(JWTAuthentication):
         # for state-changing requests.
         self.enforce_csrf(request)
 
-        session.last_used_at = timezone.now()
-        session.save(
-            update_fields=["last_used_at"]
-        )
+        # session.last_used_at = timezone.now()
+        # session.save(update_fields=["last_used_at"])
+        now = timezone.now()
+        update_before = now - timedelta(minutes=2)
+
+        if session.last_used_at < update_before:
+            UserSession.objects.filter(
+                pk=session.pk,
+                revoked_at__isnull=True,
+                last_used_at__lt=update_before,
+            ).update(last_used_at=now)
+        
 
         return user, validated_token
 

@@ -480,20 +480,51 @@ class UserDetailView(
 #             UserResponseSerializer(user).data
 #         )
 
-class MeView(
-    generics.RetrieveUpdateAPIView
-):
-    serializer_class = UserSerializer
+# class MeView(
+#     generics.RetrieveUpdateAPIView
+# ):
+#     serializer_class = UserSerializer
 
-    def retrieve(self,request,*args,**kwargs):
-        user = (User.objects.prefetch_related(Prefetch("files",queryset=(StoredFile.objects.filter(is_deleted=False).order_by("-created_at")),to_attr="prefetched_files",)).get(pk=request.user.pk))
+#     def retrieve(self,request,*args,**kwargs):
+#         user = (User.objects.prefetch_related(Prefetch("files",queryset=(StoredFile.objects.filter(is_deleted=False).order_by("-created_at")),to_attr="prefetched_files",)).get(pk=request.user.pk))
+
+#         return Response(
+#             UserResponseSerializer(
+#                 user,
+#                 context={
+#                     "request": request
+#                 },
+#             ).data
+#         )
+
+class MeView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CookieJWTAuthentication]
+
+    def get_object(self):
+        # Only allow updates to the authenticated user.
+        return self.request.user
+
+    def retrieve(self, request, *args, **kwargs):
+        user = (
+            User.objects
+            .prefetch_related(
+                Prefetch(
+                    "files",
+                    queryset=StoredFile.objects.filter(
+                        is_deleted=False
+                    ).order_by("-created_at"),
+                    to_attr="prefetched_files",
+                )
+            )
+            .get(pk=request.user.pk)
+        )
 
         return Response(
             UserResponseSerializer(
                 user,
-                context={
-                    "request": request
-                },
+                context={"request": request},
             ).data
         )
         
