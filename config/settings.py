@@ -133,8 +133,8 @@ SIMPLE_JWT = {
     "LEEWAY": 5,
 }
 
-CORS_ALLOWED_ORIGINS = [x.strip() for x in os.getenv("DJANGO_CORS_ALLOWED_ORIGINS", "").split(",") if x.strip()]
-CORS_ALLOW_CREDENTIALS = os.getenv("ALLOW_CREDENTIALS", "True").lower() == "true"
+CORS_ALLOWED_ORIGINS = [ x.strip() for x in os.getenv("DJANGO_CORS_ALLOWED_ORIGINS", "").split(",") if x.strip() ]
+CORS_ALLOW_CREDENTIALS = os.getenv("ALLOW_CREDENTIALS", "True").strip().lower() == "true"
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
@@ -223,5 +223,5 @@ REFRESH_TOKEN_COOKIE_MAX_AGE = int(
 CSRF_COOKIE_SECURE = AUTH_COOKIE_SECURE
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = AUTH_COOKIE_SAMESITE
-CSRF_TRUSTED_ORIGINS = [origin.strip()for origin in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS","",).split(",")if origin.strip()]
+CSRF_TRUSTED_ORIGINS = [ x.strip()for x in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS","",).split(",")if x.strip() ]
 CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN"
