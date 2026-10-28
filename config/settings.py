@@ -191,8 +191,8 @@ R2_HEALTHCHECK_KEY = os.getenv("R2_HEALTHCHECK_KEY", "").strip()
 # Authentication cookies
 # ----------------------------------------------------------------------
 
-# AUTH_COOKIE_SECURE = os.getenv("AUTH_COOKIE_SECURE","")
-AUTH_COOKIE_SECURE = os.getenv("AUTH_COOKIE_SECURE", "True").strip().lower() in {"true", "1", "yes", "on"}
+AUTH_COOKIE_SECURE = os.getenv("AUTH_COOKIE_SECURE", "True").lower() == "true"
+# AUTH_COOKIE_SECURE = os.getenv("AUTH_COOKIE_SECURE", "True").strip().lower() in {"true", "1", "yes", "on"}
 ACCESS_TOKEN_COOKIE = "access_token"
 REFRESH_TOKEN_COOKIE = "refresh_token"
 
@@ -200,8 +200,8 @@ AUTH_COOKIE_HTTPONLY = True
 
 AUTH_COOKIE_SAMESITE = os.getenv(
     "AUTH_COOKIE_SAMESITE",
-    "None",
-).strip()
+    "None" if not DEBUG else "Lax",
+)
 
 # ACCESS_TOKEN_COOKIE = "__Host-access_token"
 # REFRESH_TOKEN_COOKIE = "__Secure-refresh_token"
